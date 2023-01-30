@@ -10,7 +10,8 @@
 <body>
     
     <div id="app">
-        <h1>{{ greeting }}</h1>
+        <input type="text" v-model="greeting">
+        <h1>{{ greeting }}</h1> ({{ greeting.length }} characters)
     </div>
 
 
@@ -20,6 +21,11 @@
                 return {
                     greeting: 'Hello World'
                 }
+            },
+            mounted() {
+                setTimeout(() => {
+                    this.greeting = 'Hello Vue'
+                }, 3000)
             }
         }).mount('#app')
     </script>
