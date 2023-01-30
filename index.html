@@ -6,12 +6,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vuejs</title>
     <script src="https://unpkg.com/vue@3"></script>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        body{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+        }
+        .text-green{
+            color: green;
+        }
+        .text-red{
+            color: red;
+        }
+    </style>
 </head>
 <body>
     
     <div id="app">
-        <input type="text" v-model="greeting">
-        <h1>{{ greeting }}</h1> ({{ greeting.length }} characters)
+        <button :class="buttonClasses" @click="toggle"> click here</button>
     </div>
 
 
@@ -19,13 +37,13 @@
         Vue.createApp({
             data() {
                 return {
-                    greeting: 'Hello World'
+                    buttonClasses: 'text-green'
                 }
             },
-            mounted() {
-                setTimeout(() => {
-                    this.greeting = 'Hello Vue'
-                }, 3000)
+            methods: {
+                toggle() {
+                    this.buttonClasses = this.buttonClasses === 'text-green' ? 'text-red' : 'text-green'
+                }
             }
         }).mount('#app')
     </script>
