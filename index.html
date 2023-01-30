@@ -1,51 +1,71 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vuejs</title>
-    <script src="https://unpkg.com/vue@3"></script>
-    <style>
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-        }
-        body{
-            display: flex;
-            justify-content: center;
-            align-items: center;
+<html lang="en" class="h-full">
+    <head>
+        <meta charset="UTF-8">
+        <title>Vuejs</title>
+        <script src="https://unpkg.com/vue@3"></script>
+        <script src="https://cdn.tailwindcss.com"></script>
+    </head>
+    <body class="h-full grid place-items-center">
 
-        }
-        .text-green{
-            color: green;
-        }
-        .text-red{
-            color: red;
-        }
-    </style>
-</head>
-<body>
-    
-    <div id="app">
-        <button :class="buttonClasses" @click="toggle"> click here</button>
-    </div>
+        <div id="app">
+            <section v-show="inProgressAssignments.length" class="mb-5">
+                <h2 class="font-bold mb-5">In Progress Assignments</h2>
+
+                <ul>
+                    <li
+                        v-for="assignment in inProgressAssignments"
+                        :key="assignment.id">
+                        <label>
+                            <input type="checkbox"
+                                v-model="assignment.completed">
+                            {{ assignment.name }}
+                        </label>
+                    </li>
+                </ul>
+
+            </section>
+
+            <section v-show="completedAssignments.length">
+                <h2 class="font-bold mb-5">Completed Assignments</h2>
+
+                <ul>
+                    <li
+                        v-for="assignment in assignments.filter(a=>
+                        a.completed)"
+                        :key="assignment.id">
+                        <label>
+                            <input type="checkbox"
+                                v-model="assignment.completed">
+                            {{ assignment.name }}
+                        </label>
+                    </li>
+                </ul>
+            </section>
+        </div>
 
 
-    <script>
-        Vue.createApp({
-            data() {
+        <script>
+        let app = {
+            data () {
                 return {
-                    buttonClasses: 'text-green'
+                    assignments: [
+                        { name: 'Finish project', completed: false, id: 1},
+                        { name: 'Read chapter 4', completed: false, id: 2},
+                        { name: 'Turn in homework', completed: false, id: 3}
+                    ]
                 }
             },
-            methods: {
-                toggle() {
-                    this.buttonClasses = this.buttonClasses === 'text-green' ? 'text-red' : 'text-green'
+            computed : {
+                inProgressAssignments() {
+                    return this.assignments.filter(assignment => ! assignment.completed)
+                },
+                completedAssignments() {
+                    return this.assignments.filter(assignment => assignment.completed)
                 }
             }
-        }).mount('#app')
+        }
+        Vue.createApp(app).mount('#app')
     </script>
-</body>
+    </body>
 </html>
